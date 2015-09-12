@@ -178,7 +178,7 @@
 					<h3>Features</h3>
 					<ul>
 						<li>Declared Properties</li>
-						<li>Local DOM</li>
+						<li>Local/Light DOM</li>
 						<li>Data Binding</li>
 						<li>Events</li>
 						<li>Scoped Styles and Custom CSS Properties</li>
@@ -351,6 +351,48 @@ var allSpans = Polymer.dom(this).querySelectorAll('span');
 </code></pre>
 						</div>
 					</section>
+					<section>
+						<h3>One-Way Binding</h3>
+						<p>Host-To-Child</p>
+						<pre><code data-trim>
+&lt;template&gt;
+	&lt;my-gravatar email="[[email]]"&gt;&lt;/my-gravatar&gt;
+	&lt;input type="text" value="{{email::input}}"&gt;
+&lt;/template&gt;
+&lt;script&gt;
+	Polymer({
+		is: 'my-element',
+		properties: {
+			email: String,
+		},
+	});
+&lt;/script&gt;
+						</code></pre>
+						<aside class="notes">
+							<ul>
+								<li>Flow's from host down to child</li>
+								<li>Cannot modify host env value</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>Two-Way Binding</h3>
+						<p>Bi-directional between child and host</p>
+<pre><code data-trim>
+&lt;template&gt;
+	&lt;my-chooser choice="{{type}}"&gt;&lt;/my-chooser&gt;
+&lt;/template&gt;
+&lt;script&gt;
+	Polymer({
+		is: 'my-element',
+		properties: {
+			type: String,
+		},
+	});
+&lt;/script&gt;
+
+</code></pre>
+					</section>
 				</section>
 
 				<section>
@@ -416,18 +458,115 @@ Polymer({
 &lt;/dom-module&gt;
 						</code></pre>
 					</section>
-
 				</section>
 
 				<section>
-					<h3>Polymer Starter Kit</h3>
-					<pre><code data-trim>
+					<section data-background="img/style.gif">
+						<h1 style="color: black;">Styling</h1>
+					</section>
+
+					<section>
+						<h3>Scoped Styles</h3>
+						<pre><code data-trim>
+&lt;template&gt;
+	&lt;style&gt;
+		:host { /* Selector to style the host DOM element */
+			display: block;
+		}
+
+		.content-wrapper > ::content .warning { /* Light DOM */
+			color: red;
+		}
+	&lt;/style&gt;
+
+	&lt;div class="content-wrapper"&gt;&lt;content&gt;&lt;/content&gt;&lt;/div&gt;
+&lt;/template&gt;
+						</code></pre>
+						<aside class="notes">
+							<ul>
+								<li>Host selector</li>
+								<li>::content requires selector to the left (shady DOM)</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<h3>Cross Scope Styles</h3>
+						<p>"Theming"</p>
+						<pre><code data-trim>
+&lt;template&gt;
+	&lt;style&gt;
+		:host { /* Selector to style the host DOM element */
+			display: block;
+		}
+
+		.content-wrapper > ::content .warning { /* Light DOM */
+			color: var(--my-element-warning-color, red);
+		}
+	&lt;/style&gt;
+
+	&lt;div class="content-wrapper"&gt;&lt;content&gt;&lt;/content&gt;&lt;/div&gt;
+&lt;/template&gt;
+						</code></pre>
+						<aside class="notes">
+							<ul>
+								<li>Value defined anywhere in the parent hierarchy</li>
+								<li>like font settings</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>CSS Mixins</h3>
+						<pre><code data-trim>
+&lt;template&gt;
+	&lt;style&gt;
+		:host { /* Selector to style the host DOM element */
+			display: block;
+			@apply(--my-element-theme);
+		}
+	&lt;/style&gt;
+&lt;/template&gt;
+						</code></pre>
+						<pre class="fragment"><code data-trim>
+&lt;style&gt;
+	:host {
+		--my-element-theme {
+			background-color: green;
+		}
+	}
+&lt;/style&gt;
+						</code></pre>
+						<aside class="notes">
+							<ul>
+								<li>Allows complete theming not anticipated.</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Element Catalog</h3>
+						<img src="img/element-catalog.png">
+					</section>
+					<section>
+						<h3>Polymer Starter Kit</h3>
+						<ul>
+							<li>Best Practices Baked In</li>
+							<li>Build</li>
+							<li>Offline Support</li>
+							<li>Testing</li>
+						</ul>
+					</section>
+					<section>
+						<pre><code data-trim>
 $ wget https://github.com/PolymerElements/polymer-starter-kit/releases/download/v1.0.3/polymer-starter-kit-1.0.3.zip
 $ unzip polymer-starter-kit-1.0.3.zip
 $ cd polymer-starter-kit-1.0.3
 $ npm install && bower install
 $ gulp serve
-					</code></pre>
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
